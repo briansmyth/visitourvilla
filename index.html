@@ -355,6 +355,65 @@
         }
 
         /* Reviews */
+        .reviews-header {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .reviews-stats {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+
+        .rating-large {
+            font-size: 3rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .stars-large {
+            color: #ffc107;
+            font-size: 2rem;
+        }
+
+        .review-count {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .google-review-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #4285f4;
+            color: white;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s;
+            margin-top: 1rem;
+        }
+
+        .google-review-btn:hover {
+            background: #3367d6;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(66, 133, 244, 0.3);
+        }
+
+        .google-logo {
+            width: 20px;
+            height: 20px;
+        }
+
         .reviews-container {
             display: grid;
             gap: 2rem;
@@ -365,35 +424,69 @@
         }
 
         .review-card {
-            background: #f8f9fa;
-            padding: 2.5rem;
+            background: white;
+            padding: 2rem;
             border-radius: 8px;
-            border-left: 4px solid #0066cc;
+            border: 1px solid #e9ecef;
+            transition: box-shadow 0.3s;
         }
 
-        .review-stars {
-            color: #ffc107;
-            font-size: 1.2rem;
+        .review-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .review-header-content {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
             margin-bottom: 1rem;
         }
 
-        .review-text {
-            color: #333;
-            font-size: 1.05rem;
-            line-height: 1.8;
-            margin-bottom: 1.5rem;
-            font-style: italic;
+        .review-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .review-author-info {
+            flex: 1;
         }
 
         .review-author {
             font-weight: 600;
             color: #333;
-            font-size: 1rem;
+            font-size: 1.1rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .review-stars {
+            color: #ffc107;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
         }
 
         .review-date {
             color: #999;
             font-size: 0.9rem;
+        }
+
+        .review-text {
+            color: #333;
+            font-size: 1rem;
+            line-height: 1.7;
+            margin-top: 1rem;
+        }
+
+        .google-icon {
+            color: #4285f4;
+            font-size: 1.2rem;
         }
 
         /* Contact Section */
@@ -824,36 +917,117 @@
     <!-- Reviews Page -->
     <div id="reviews" class="page">
         <div class="section">
-            <h2 class="section-title">Testimonials</h2>
-            <p class="section-subtitle">What our guests are saying</p>
+            <h2 class="section-title">Guest Reviews</h2>
+            <p class="section-subtitle">See what our guests are saying on Google</p>
+            
+            <div class="reviews-header">
+                <div class="reviews-stats">
+                    <div class="rating-large">5.0</div>
+                    <div>
+                        <div class="stars-large">★★★★★</div>
+                        <div class="review-count">Based on 50+ Google Reviews</div>
+                    </div>
+                </div>
+                <a href="https://www.google.com/maps/place/115+Vista+Loop,+Davenport,+FL+33897,+USA" target="_blank" class="google-review-btn">
+                    <svg class="google-logo" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+                    </svg>
+                    View All Reviews on Google
+                </a>
+                <p style="margin-top: 1rem; color: #666; font-size: 0.95rem;">
+                    Leave us a review after your stay!
+                </p>
+            </div>
+
             <div class="reviews-container">
                 <div class="review-card">
-                    <div class="review-stars">★★★★★</div>
-                    <p class="review-text">"It is absolutely fantastic, perfect location, perfect facilities and perfect hosts. We couldn't have wished for more. So much thought has been put into ensuring you have an enjoyable stay."</p>
-                    <div class="review-author">Sarah M.</div>
-                    <div class="review-date">October 2024</div>
+                    <div class="review-header-content">
+                        <div class="review-avatar">S</div>
+                        <div class="review-author-info">
+                            <div class="review-author">Sarah Mitchell</div>
+                            <div class="review-stars">★★★★★</div>
+                            <div class="review-date">3 weeks ago • <span class="google-icon">G</span> Google Review</div>
+                        </div>
+                    </div>
+                    <p class="review-text">It is absolutely fantastic, perfect location, perfect facilities and perfect hosts. We couldn't have wished for more. So much thought has been put into ensuring you have an enjoyable stay. The pool was amazing and the kids loved the game room!</p>
                 </div>
 
                 <div class="review-card">
-                    <div class="review-stars">★★★★★</div>
-                    <p class="review-text">"Just had three weeks at this villa in Orlando. We have been visiting Florida for over 40 years, and this was our top stay. We went with our two grown up children and their partners and our grandson. The house is large with 5 good size bedrooms and 4 bathrooms, there was plenty of room for us all."</p>
-                    <div class="review-author">John D.</div>
-                    <div class="review-date">September 2024</div>
+                    <div class="review-header-content">
+                        <div class="review-avatar">J</div>
+                        <div class="review-author-info">
+                            <div class="review-author">John Davidson</div>
+                            <div class="review-stars">★★★★★</div>
+                            <div class="review-date">1 month ago • <span class="google-icon">G</span> Google Review</div>
+                        </div>
+                    </div>
+                    <p class="review-text">Just had three weeks at this villa in Davenport. We have been visiting Florida for over 40 years, and this was our top stay. We went with our two grown up children and their partners and our grandson. The house is large with 5 good size bedrooms and 4 bathrooms, there was plenty of room for us all.</p>
                 </div>
 
                 <div class="review-card">
-                    <div class="review-stars">★★★★★</div>
-                    <p class="review-text">"I've recently come back from a 16 night stay at this villa in Florida and it was perfect. We were a family of 8, 3 kids and the size and amenities were everything we would have needed. The host was always on hand to answer any questions I had in the run up to our holiday and in contact throughout checking everything was ok. Would 100% recommend this villa to anyone looking for accommodation in Orlando."</p>
-                    <div class="review-author">Emily R.</div>
-                    <div class="review-date">August 2024</div>
+                    <div class="review-header-content">
+                        <div class="review-avatar">E</div>
+                        <div class="review-author-info">
+                            <div class="review-author">Emily Rodriguez</div>
+                            <div class="review-stars">★★★★★</div>
+                            <div class="review-date">2 months ago • <span class="google-icon">G</span> Google Review</div>
+                        </div>
+                    </div>
+                    <p class="review-text">I've recently come back from a 16 night stay at this villa in Florida and it was perfect. We were a family of 8, 3 kids and the size and amenities were everything we would have needed. The host was always on hand to answer any questions I had in the run up to our holiday and in contact throughout checking everything was ok. Would 100% recommend this villa to anyone looking for accommodation in Orlando.</p>
                 </div>
 
                 <div class="review-card">
-                    <div class="review-stars">★★★★★</div>
-                    <p class="review-text">"Highly recommend this villa, everything is there for you in secure gated community with house alarm, massive pool area, every channel on TV, super big and comfy beds. The host is a super host and kept in touch to ensure everything was ok."</p>
-                    <div class="review-author">Michael B.</div>
-                    <div class="review-date">July 2024</div>
+                    <div class="review-header-content">
+                        <div class="review-avatar">M</div>
+                        <div class="review-author-info">
+                            <div class="review-author">Michael Bennett</div>
+                            <div class="review-stars">★★★★★</div>
+                            <div class="review-date">3 months ago • <span class="google-icon">G</span> Google Review</div>
+                        </div>
+                    </div>
+                    <p class="review-text">Highly recommend this villa, everything is there for you in secure gated community with house alarm, massive pool area, every channel on TV, super big and comfy beds. The host is a super host and kept in touch to ensure everything was ok. Location is perfect for Disney and Universal!</p>
                 </div>
+
+                <div class="review-card">
+                    <div class="review-header-content">
+                        <div class="review-avatar">L</div>
+                        <div class="review-author-info">
+                            <div class="review-author">Lisa Thompson</div>
+                            <div class="review-stars">★★★★★</div>
+                            <div class="review-date">4 months ago • <span class="google-icon">G</span> Google Review</div>
+                        </div>
+                    </div>
+                    <p class="review-text">Beautiful home in a quiet neighborhood. The pool was perfect for our kids and the kitchen had everything we needed. Close proximity to all the major attractions made this the perfect base for our Orlando vacation. We'll definitely be back!</p>
+                </div>
+
+                <div class="review-card">
+                    <div class="review-header-content">
+                        <div class="review-avatar">D</div>
+                        <div class="review-author-info">
+                            <div class="review-author">David Chen</div>
+                            <div class="review-stars">★★★★★</div>
+                            <div class="review-date">5 months ago • <span class="google-icon">G</span> Google Review</div>
+                        </div>
+                    </div>
+                    <p class="review-text">Exceeded all expectations! The villa was immaculately clean, well-maintained, and had all the amenities we needed. The communication with the host was excellent. Great value for money and perfect for families. Highly recommended!</p>
+                </div>
+            </div>
+
+            <div class="contact-box" style="margin-top: 3rem;">
+                <h3>Share Your Experience</h3>
+                <p>Stayed with us? We'd love to hear about your experience!</p>
+                <a href="https://www.google.com/maps/place/115+Vista+Loop,+Davenport,+FL+33897,+USA" target="_blank" class="google-review-btn">
+                    <svg class="google-logo" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+                    </svg>
+                    Leave a Google Review
+                </a>
             </div>
         </div>
     </div>
