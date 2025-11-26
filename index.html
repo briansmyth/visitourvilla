@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orlando Vacation Home | Your Perfect Florida Getaway</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #fff;
+        }
+
+        /* Navigation */
+        nav {
+            background: white;
+            padding: 1.5rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        nav a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: color 0.3s;
+            letter-spacing: 0.5px;
+        }
+
+        nav a:hover {
+            color: #0066cc;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.3)), 
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect fill="%234a90e2" width="1200" height="600"/></svg>');
+            background-size: cover;
+            background-position: center;
+            height: 70vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            padding: 0 2rem;
+        }
+
+        .hero-content h1 {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+            line-height: 1.2;
+        }
+
+        .hero-content p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+
+        /* Sections */
+        .section {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            text-align: center;
+            color: #333;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: #666;
+            font-size: 1.1rem;
+            margin-bottom: 3rem;
+            font-weight: 300;
+        }
+
+        /* Page Sections */
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* Button */
+        .btn {
+            display: inline-block;
+            background: #0066cc;
+            color: white;
+            padding: 1rem 2.5rem;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            letter-spacing: 0.5px;
+        }
+
+        .btn:hover {
+            background: #0052a3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,102,204,0.3);
+        }
+
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .feature-item {
+            text-align: center;
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-item h3 {
+            color: #333;
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+
+        .feature-item p {
+            color: #666;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        /* Property Overview */
+        .overview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .overview-card {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .overview-card h3 {
+            color: #333;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+            font-weight: 500;
+        }
+
+        .overview-card p {
+            color: #666;
+            line-height: 1.8;
+        }
+
+        /* Gallery */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .gallery-item {
+            position: relative;
+            height: 280px;
+            border-radius: 4px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.02);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .gallery-placeholder {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.1rem;
+            text-align: center;
+            padding: 1rem;
+            height: 100%;
+        }
+
+        /* Availability Calendar */
+        .calendar-wrapper {
+            background: #f8f9fa;
+            padding: 3rem 2rem;
+            border-radius: 8px;
+            max-width: 900px;
+            margin: 2rem auto;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .calendar-header h3 {
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .calendar-header button {
+            background: #0066cc;
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: background 0.3s;
+        }
+
+        .calendar-header button:hover {
+            background: #0052a3;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.5rem;
+        }
+
+        .calendar-day {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.95rem;
+        }
+
+        .calendar-day.header {
+            background: transparent;
+            color: #666;
+            cursor: default;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .calendar-day.available {
+            background: white;
+            color: #333;
+            border: 1px solid #dee2e6;
+        }
+
+        .calendar-day.available:hover {
+            background: #e7f3ff;
+            border-color: #0066cc;
+            transform: scale(1.05);
+        }
+
+        .calendar-day.booked {
+            background: #e9ecef;
+            color: #999;
+            cursor: not-allowed;
+            position: relative;
+        }
+
+        .calendar-day.booked::after {
+            content: '';
+            position: absolute;
+            width: 70%;
+            height: 1px;
+            background: #999;
+            top: 50%;
+            left: 15%;
+            transform: translateY(-50%);
+        }
+
+        .calendar-day.empty {
+            cursor: default;
+        }
+
+        .calendar-legend {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 2rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.95rem;
+            color: #666;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 3px;
+        }
+
+        /* Reviews */
+        .reviews-container {
+            display: grid;
+            gap: 2rem;
+            margin-top: 3rem;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .review-card {
+            background: #f8f9fa;
+            padding: 2.5rem;
+            border-radius: 8px;
+            border-left: 4px solid #0066cc;
+        }
+
+        .review-stars {
+            color: #ffc107;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .review-text {
+            color: #333;
+            font-size: 1.05rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            font-style: italic;
+        }
+
+        .review-author {
+            font-weight: 600;
+            color: #333;
+            font-size: 1rem;
+        }
+
+        .review-date {
+            color: #999;
+            font-size: 0.9rem;
+        }
+
+        /* Contact Section */
+        .contact-box {
+            background: #f8f9fa;
+            padding: 3rem;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .contact-box h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .contact-box p {
+            color: #666;
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+
+        .contact-info {
+            margin: 1.5rem 0;
+            font-size: 1.1rem;
+        }
+
+        .contact-info a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+
+        .contact-info a:hover {
+            text-decoration: underline;
+        }
+
+        /* Footer */
+        footer {
+            background: #f8f9fa;
+            color: #666;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+            font-size: 0.95rem;
+        }
+
+        footer a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+
+            .hero-content p {
+                font-size: 1.1rem;
+            }
+
+            nav ul {
+                gap: 1.5rem;
+            }
+
+            .section {
+                padding: 3rem 1.5rem;
+            }
+
+            .section-title {
+                font-size: 1.6rem;
+            }
+
+            .calendar-grid {
+                gap: 0.3rem;
+            }
+
+            .calendar-day {
+                font-size: 0.85rem;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="#" onclick="showPage('home')">Home</a></li>
+            <li><a href="#" onclick="showPage('gallery')">Gallery</a></li>
+            <li><a href="#" onclick="showPage('availability')">Availability</a></li>
+            <li><a href="#" onclick="showPage('reviews')">Reviews</a></li>
+        </ul>
+    </nav>
+
+    <!-- Home Page -->
+    <div id="home" class="page active">
+        <div class="hero">
+            <div class="hero-content">
+                <h1>Luxury 5‑Bedroom Villa with Heated Pool in Orlando</h1>
+                <p>Your perfect home away from home – minutes from Disney World and local attractions.</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">Property Overview</h2>
+            <div class="overview-grid">
+                <div class="overview-card">
+                    <h3>Spacious & Private</h3>
+                    <p>5 bedrooms, 4 bathrooms<br>
+                    Sleeps up to 12 guests comfortably</p>
+                </div>
+                <div class="overview-card">
+                    <h3>Resort‑Style Amenities</h3>
+                    <p>Screened, heated pool<br>
+                    Gated community for peace of mind</p>
+                </div>
+                <div class="overview-card">
+                    <h3>Ideal Location</h3>
+                    <p>15 minute drive to Disney World<br>
+                    Close to golf courses, shops and restaurants</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section" style="background: #f8f9fa; margin: 0; max-width: 100%; padding: 5rem 2rem;">
+            <div style="max-width: 1200px; margin: 0 auto;">
+                <h2 class="section-title">Why Choose Our Villa?</h2>
+                <p class="section-subtitle">Make unforgettable memories in a fully equipped villa designed for families and friends.</p>
+                <div class="features-grid">
+                    <div class="feature-item">
+                        <div class="feature-icon">🏰</div>
+                        <h3>Near Theme Parks</h3>
+                        <p>Minutes away from Disney World, Universal Studios, and SeaWorld</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">🏊</div>
+                        <h3>Private Pool</h3>
+                        <p>Enjoy your own heated pool in a screened lanai</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">🛏️</div>
+                        <h3>Spacious Rooms</h3>
+                        <p>5 bedrooms with comfortable beds and quality linens</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">🍳</div>
+                        <h3>Full Kitchen</h3>
+                        <p>Fully equipped kitchen for all your cooking needs</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">📺</div>
+                        <h3>Entertainment</h3>
+                        <p>Game room, smart TVs, and high-speed WiFi</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">🔒</div>
+                        <h3>Safe & Secure</h3>
+                        <p>Gated community with house alarm system</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="contact-box">
+                <h3>Ready To Plan Your Getaway?</h3>
+                <p>Click below to secure your dates!</p>
+                <a href="#" onclick="showPage('availability')" class="btn">Check Availability</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gallery Page -->
+    <div id="gallery" class="page">
+        <div class="section">
+            <h2 class="section-title">Gallery</h2>
+            <p class="section-subtitle">Take a look at our beautiful villa</p>
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <div class="gallery-placeholder">Living Room</div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-placeholder">Master Bedroom</div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-placeholder">Private Pool</div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-placeholder">Full Kitchen</div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-placeholder">Game Room</div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-placeholder">Outdoor Patio</div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-placeholder">Guest Bedroom</div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-placeholder">Bathroom</div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-placeholder">Dining Area</div>
+                </div>
+            </div>
+            <p style="text-align: center; margin-top: 2rem; color: #999; font-size: 0.95rem;">
+                Replace placeholder images with your actual property photos
+            </p>
+        </div>
+    </div>
+
+    <!-- Availability Page -->
+    <div id="availability" class="page">
+        <div class="section">
+            <h2 class="section-title">Check Availability</h2>
+            <p class="section-subtitle">Select your dates to book your perfect Orlando vacation</p>
+            <div class="calendar-wrapper">
+                <div class="calendar-header">
+                    <button onclick="changeMonth(-1)">← Previous</button>
+                    <h3 id="currentMonth"></h3>
+                    <button onclick="changeMonth(1)">Next →</button>
+                </div>
+                <div class="calendar-grid" id="calendar"></div>
+                <div class="calendar-legend">
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: white; border: 1px solid #dee2e6;"></div>
+                        <span>Available</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #e9ecef;"></div>
+                        <span>Booked</span>
+                    </div>
+                </div>
+            </div>
+            <div class="contact-box">
+                <h3>Ready to Book?</h3>
+                <div class="contact-info">
+                    <p>Contact us at: <a href="mailto:booking@example.com">booking@example.com</a></p>
+                    <p>Or call: <a href="tel:5551234567">(555) 123-4567</a></p>
+                </div>
+                <a href="mailto:booking@example.com" class="btn">Send Inquiry</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reviews Page -->
+    <div id="reviews" class="page">
+        <div class="section">
+            <h2 class="section-title">Testimonials</h2>
+            <p class="section-subtitle">What our guests are saying</p>
+            <div class="reviews-container">
+                <div class="review-card">
+                    <div class="review-stars">★★★★★</div>
+                    <p class="review-text">"It is absolutely fantastic, perfect location, perfect facilities and perfect hosts. We couldn't have wished for more. So much thought has been put into ensuring you have an enjoyable stay."</p>
+                    <div class="review-author">Sarah M.</div>
+                    <div class="review-date">October 2024</div>
+                </div>
+
+                <div class="review-card">
+                    <div class="review-stars">★★★★★</div>
+                    <p class="review-text">"Just had three weeks at this villa in Orlando. We have been visiting Florida for over 40 years, and this was our top stay. We went with our two grown up children and their partners and our grandson. The house is large with 5 good size bedrooms and 4 bathrooms, there was plenty of room for us all."</p>
+                    <div class="review-author">John D.</div>
+                    <div class="review-date">September 2024</div>
+                </div>
+
+                <div class="review-card">
+                    <div class="review-stars">★★★★★</div>
+                    <p class="review-text">"I've recently come back from a 16 night stay at this villa in Florida and it was perfect. We were a family of 8, 3 kids and the size and amenities were everything we would have needed. The host was always on hand to answer any questions I had in the run up to our holiday and in contact throughout checking everything was ok. Would 100% recommend this villa to anyone looking for accommodation in Orlando."</p>
+                    <div class="review-author">Emily R.</div>
+                    <div class="review-date">August 2024</div>
+                </div>
+
+                <div class="review-card">
+                    <div class="review-stars">★★★★★</div>
+                    <p class="review-text">"Highly recommend this villa, everything is there for you in secure gated community with house alarm, massive pool area, every channel on TV, super big and comfy beds. The host is a super host and kept in touch to ensure everything was ok."</p>
+                    <div class="review-author">Michael B.</div>
+                    <div class="review-date">July 2024</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Orlando Vacation Villa. All rights reserved.</p>
+        <p><a href="mailto:booking@example.com">booking@example.com</a> | <a href="tel:5551234567">(555) 123-4567</a></p>
+    </footer>
+
+    <script>
+        let currentDate = new Date();
+        
+        // Sample booked dates (customize these)
+        const bookedDates = [
+            '2024-12-24', '2024-12-25', '2024-12-26', '2024-12-27',
+            '2024-12-28', '2024-12-29', '2024-12-30', '2024-12-31',
+            '2025-01-01', '2025-01-02', '2025-01-03'
+        ];
+
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById(pageId).classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
+        function generateCalendar(year, month) {
+            const firstDay = new Date(year, month, 1);
+            const lastDay = new Date(year, month + 1, 0);
+            const daysInMonth = lastDay.getDate();
+            const startingDayOfWeek = firstDay.getDay();
+
+            const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+                              'July', 'August', 'September', 'October', 'November', 'December'];
+            
+            document.getElementById('currentMonth').textContent = 
+                `${monthNames[month]} ${year}`;
+
+            const calendar = document.getElementById('calendar');
+            calendar.innerHTML = '';
+
+            const dayHeaders = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            dayHeaders.forEach(day => {
+                const dayEl = document.createElement('div');
+                dayEl.className = 'calendar-day header';
+                dayEl.textContent = day;
+                calendar.appendChild(dayEl);
+            });
+
+            for (let i = 0; i < startingDayOfWeek; i++) {
+                const emptyEl = document.createElement('div');
+                emptyEl.className = 'calendar-day empty';
+                calendar.appendChild(emptyEl);
+            }
+
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dayEl = document.createElement('div');
+                const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                const isBooked = bookedDates.includes(dateStr);
+                
+                dayEl.className = `calendar-day ${isBooked ? 'booked' : 'available'}`;
+                dayEl.textContent = day;
+                
+                if (!isBooked) {
+                    dayEl.onclick = () => {
+                        alert(`Selected date: ${dateStr}\nPlease contact us to book this date!`);
+                    };
+                }
+                
+                calendar.appendChild(dayEl);
+            }
+        }
+
+        function changeMonth(delta) {
+            currentDate.setMonth(currentDate.getMonth() + delta);
+            generateCalendar(currentDate.getFullYear(), currentDate.getMonth());
+        }
+
+        // Initialize calendar
+        generateCalendar(currentDate.getFullYear(), currentDate.getMonth());
+    </script>
+</body>
+</html>
