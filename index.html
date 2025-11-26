@@ -432,6 +432,69 @@
             text-decoration: underline;
         }
 
+        /* Contact Page Styles */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .contact-card {
+            background: #f8f9fa;
+            padding: 2.5rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .contact-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .contact-card h3 {
+            color: #333;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+            font-weight: 500;
+        }
+
+        .contact-card p {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-card a {
+            color: #0066cc;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .contact-card a:hover {
+            text-decoration: underline;
+        }
+
+        .map-container {
+            margin-top: 3rem;
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .map-placeholder {
+            background: #e9ecef;
+            height: 400px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 1.1rem;
+            margin-top: 1rem;
+        }
+
         /* Footer */
         footer {
             background: #f8f9fa;
@@ -490,6 +553,7 @@
             <li><a href="#" onclick="showPage('gallery')">Gallery</a></li>
             <li><a href="#" onclick="showPage('availability')">Availability</a></li>
             <li><a href="#" onclick="showPage('reviews')">Reviews</a></li>
+            <li><a href="#" onclick="showPage('contact')">Contact</a></li>
         </ul>
     </nav>
 
@@ -678,6 +742,53 @@
                     <div class="review-author">Michael B.</div>
                     <div class="review-date">July 2024</div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Page -->
+    <div id="contact" class="page">
+        <div class="section">
+            <h2 class="section-title">Contact Us</h2>
+            <p class="section-subtitle">Get in touch to book your perfect Orlando vacation</p>
+            
+            <div class="contact-grid">
+                <div class="contact-card">
+                    <div class="contact-icon">📧</div>
+                    <h3>Email</h3>
+                    <p><a href="mailto:booking@example.com">booking@example.com</a></p>
+                    <p><a href="mailto:info@example.com">info@example.com</a></p>
+                </div>
+
+                <div class="contact-card">
+                    <div class="contact-icon">📞</div>
+                    <h3>Phone</h3>
+                    <p><a href="tel:+15551234567">+1 (555) 123-4567</a></p>
+                    <p><a href="tel:+15559876543">+1 (555) 987-6543</a></p>
+                    <p style="font-size: 0.9rem; margin-top: 0.5rem;">Available 9 AM - 9 PM EST</p>
+                </div>
+
+                <div class="contact-card">
+                    <div class="contact-icon">📍</div>
+                    <h3>Property Address</h3>
+                    <p>1234 Paradise Way</p>
+                    <p>Orlando, FL 32819</p>
+                    <p>United States</p>
+                </div>
+            </div>
+
+            <div class="map-container">
+                <h3 style="margin-bottom: 1rem; color: #333; font-size: 1.3rem; font-weight: 500;">Where You'll Stay</h3>
+                <p style="color: #666; margin-bottom: 1rem;">Located in a peaceful gated community, just 15 minutes from Disney World</p>
+                <div class="map-placeholder">
+                    📍 Map placeholder - Add Google Maps embed here
+                </div>
+            </div>
+
+            <div class="contact-box">
+                <h3>Ready to Book?</h3>
+                <p>Send us a message and we'll get back to you within 24 hours</p>
+                <a href="mailto:booking@example.com?subject=Booking Inquiry" class="btn">Send Email</a>
             </div>
         </div>
     </div>
