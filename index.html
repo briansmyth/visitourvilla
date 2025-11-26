@@ -495,6 +495,117 @@
             margin-top: 1rem;
         }
 
+        /* Admin Panel Styles */
+        .admin-login {
+            max-width: 400px;
+            margin: 4rem auto;
+            padding: 2rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .admin-login input {
+            width: 100%;
+            padding: 0.8rem;
+            margin-bottom: 1rem;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .admin-panel {
+            display: none;
+        }
+
+        .admin-panel.active {
+            display: block;
+        }
+
+        .admin-controls {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .admin-controls button {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin: 0 0.5rem;
+            transition: background 0.3s;
+        }
+
+        .admin-controls button:hover {
+            background: #218838;
+        }
+
+        .admin-controls .logout-btn {
+            background: #dc3545;
+        }
+
+        .admin-controls .logout-btn:hover {
+            background: #c82333;
+        }
+
+        .admin-instructions {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            padding: 1rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            color: #856404;
+        }
+
+        .calendar-day.admin-mode {
+            cursor: pointer;
+        }
+
+        .calendar-day.admin-mode:hover {
+            opacity: 0.7;
+        }
+
+        .booked-dates-list {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 2rem;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .booked-dates-list h4 {
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .booked-date-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .booked-date-item button {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .booked-date-item button:hover {
+            background: #c82333;
+        }
+
         /* Footer */
         footer {
             background: #f8f9fa;
@@ -554,6 +665,7 @@
             <li><a href="#" onclick="showPage('availability')">Availability</a></li>
             <li><a href="#" onclick="showPage('reviews')">Reviews</a></li>
             <li><a href="#" onclick="showPage('contact')">Contact</a></li>
+            <li><a href="#" onclick="showPage('admin')">Admin</a></li>
         </ul>
     </nav>
 
@@ -793,6 +905,57 @@
         </div>
     </div>
 
+    <!-- Admin Page -->
+    <div id="admin" class="page">
+        <div class="section">
+            <!-- Login Form -->
+            <div id="adminLogin" class="admin-login">
+                <h2 class="section-title">Admin Login</h2>
+                <input type="password" id="adminPassword" placeholder="Enter admin password" onkeypress="if(event.key === 'Enter') adminLogin()">
+                <button class="btn" onclick="adminLogin()" style="width: 100%;">Login</button>
+                <p style="color: #999; font-size: 0.9rem; margin-top: 1rem; text-align: center;">Default password: admin123</p>
+            </div>
+
+            <!-- Admin Panel -->
+            <div id="adminPanel" class="admin-panel">
+                <h2 class="section-title">Manage Calendar</h2>
+                <div class="admin-controls">
+                    <div class="admin-instructions">
+                        <strong>Instructions:</strong> Click on any date in the calendar below to toggle its availability. 
+                        Green dates are available, gray dates are booked. Changes are saved automatically in your browser.
+                    </div>
+                    <button onclick="exportBookedDates()">📋 Copy Booked Dates</button>
+                    <button onclick="clearAllBookings()">🗑️ Clear All Bookings</button>
+                    <button class="logout-btn" onclick="adminLogout()">Logout</button>
+                </div>
+                
+                <div class="calendar-wrapper">
+                    <div class="calendar-header">
+                        <button onclick="changeMonth(-1)">← Previous</button>
+                        <h3 id="adminCurrentMonth"></h3>
+                        <button onclick="changeMonth(1)">Next →</button>
+                    </div>
+                    <div class="calendar-grid" id="adminCalendar"></div>
+                    <div class="calendar-legend">
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: white; border: 1px solid #dee2e6;"></div>
+                            <span>Available (Click to book)</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #e9ecef;"></div>
+                            <span>Booked (Click to unbook)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="booked-dates-list">
+                    <h4>Currently Booked Dates:</h4>
+                    <div id="bookedDatesList"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <footer>
         <p>&copy; 2024 Orlando Vacation Villa. All rights reserved.</p>
         <p><a href="mailto:booking@example.com">booking@example.com</a> | <a href="tel:5551234567">(555) 123-4567</a></p>
@@ -800,13 +963,96 @@
 
     <script>
         let currentDate = new Date();
+        let isAdminMode = false;
+        const ADMIN_PASSWORD = 'admin123'; // Change this to your secure password
         
-        // Sample booked dates (customize these)
-        const bookedDates = [
-            '2024-12-24', '2024-12-25', '2024-12-26', '2024-12-27',
-            '2024-12-28', '2024-12-29', '2024-12-30', '2024-12-31',
-            '2025-01-01', '2025-01-02', '2025-01-03'
-        ];
+        // Load booked dates from browser storage or use defaults
+        let bookedDates = [];
+        
+        function loadBookedDates() {
+            const stored = localStorage.getItem('bookedDates');
+            if (stored) {
+                bookedDates = JSON.parse(stored);
+            } else {
+                // Default booked dates
+                bookedDates = [
+                    '2024-12-24', '2024-12-25', '2024-12-26', '2024-12-27',
+                    '2024-12-28', '2024-12-29', '2024-12-30', '2024-12-31',
+                    '2025-01-01', '2025-01-02', '2025-01-03'
+                ];
+                saveBookedDates();
+            }
+        }
+
+        function saveBookedDates() {
+            localStorage.setItem('bookedDates', JSON.stringify(bookedDates.sort()));
+            updateBookedDatesList();
+        }
+
+        function toggleDate(dateStr) {
+            if (!isAdminMode) return;
+            
+            const index = bookedDates.indexOf(dateStr);
+            if (index > -1) {
+                bookedDates.splice(index, 1);
+            } else {
+                bookedDates.push(dateStr);
+            }
+            saveBookedDates();
+            generateCalendar(currentDate.getFullYear(), currentDate.getMonth(), isAdminMode);
+        }
+
+        function updateBookedDatesList() {
+            const listEl = document.getElementById('bookedDatesList');
+            if (!listEl) return;
+            
+            if (bookedDates.length === 0) {
+                listEl.innerHTML = '<p style="color: #999;">No booked dates</p>';
+                return;
+            }
+            
+            listEl.innerHTML = bookedDates.sort().map(date => `
+                <div class="booked-date-item">
+                    <span>${new Date(date + 'T00:00:00').toLocaleDateString('en-US', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' })}</span>
+                    <button onclick="toggleDate('${date}')">Remove</button>
+                </div>
+            `).join('');
+        }
+
+        function adminLogin() {
+            const password = document.getElementById('adminPassword').value;
+            if (password === ADMIN_PASSWORD) {
+                document.getElementById('adminLogin').style.display = 'none';
+                document.getElementById('adminPanel').classList.add('active');
+                isAdminMode = true;
+                generateCalendar(currentDate.getFullYear(), currentDate.getMonth(), true);
+                updateBookedDatesList();
+            } else {
+                alert('Incorrect password');
+            }
+        }
+
+        function adminLogout() {
+            document.getElementById('adminLogin').style.display = 'block';
+            document.getElementById('adminPanel').classList.remove('active');
+            document.getElementById('adminPassword').value = '';
+            isAdminMode = false;
+        }
+
+        function exportBookedDates() {
+            const code = `const bookedDates = ${JSON.stringify(bookedDates, null, 2)};`;
+            navigator.clipboard.writeText(code).then(() => {
+                alert('Booked dates copied to clipboard! You can paste this into the JavaScript code.');
+            });
+        }
+
+        function clearAllBookings() {
+            if (confirm('Are you sure you want to clear all bookings?')) {
+                bookedDates = [];
+                saveBookedDates();
+                generateCalendar(currentDate.getFullYear(), currentDate.getMonth(), true);
+            }
+        }
 
         function showPage(pageId) {
             document.querySelectorAll('.page').forEach(page => {
@@ -814,9 +1060,14 @@
             });
             document.getElementById(pageId).classList.add('active');
             window.scrollTo(0, 0);
+            
+            // Reset admin mode when leaving admin page
+            if (pageId !== 'admin') {
+                isAdminMode = false;
+            }
         }
 
-        function generateCalendar(year, month) {
+        function generateCalendar(year, month, adminMode = false) {
             const firstDay = new Date(year, month, 1);
             const lastDay = new Date(year, month + 1, 0);
             const daysInMonth = lastDay.getDate();
@@ -825,10 +1076,17 @@
             const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
                               'July', 'August', 'September', 'October', 'November', 'December'];
             
-            document.getElementById('currentMonth').textContent = 
-                `${monthNames[month]} ${year}`;
+            const monthElId = adminMode ? 'adminCurrentMonth' : 'currentMonth';
+            const calendarElId = adminMode ? 'adminCalendar' : 'calendar';
+            
+            const monthEl = document.getElementById(monthElId);
+            if (monthEl) {
+                monthEl.textContent = `${monthNames[month]} ${year}`;
+            }
 
-            const calendar = document.getElementById('calendar');
+            const calendar = document.getElementById(calendarElId);
+            if (!calendar) return;
+            
             calendar.innerHTML = '';
 
             const dayHeaders = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -851,9 +1109,14 @@
                 const isBooked = bookedDates.includes(dateStr);
                 
                 dayEl.className = `calendar-day ${isBooked ? 'booked' : 'available'}`;
+                if (adminMode) {
+                    dayEl.className += ' admin-mode';
+                }
                 dayEl.textContent = day;
                 
-                if (!isBooked) {
+                if (adminMode) {
+                    dayEl.onclick = () => toggleDate(dateStr);
+                } else if (!isBooked) {
                     dayEl.onclick = () => {
                         alert(`Selected date: ${dateStr}\nPlease contact us to book this date!`);
                     };
@@ -865,10 +1128,11 @@
 
         function changeMonth(delta) {
             currentDate.setMonth(currentDate.getMonth() + delta);
-            generateCalendar(currentDate.getFullYear(), currentDate.getMonth());
+            generateCalendar(currentDate.getFullYear(), currentDate.getMonth(), isAdminMode);
         }
 
-        // Initialize calendar
+        // Initialize
+        loadBookedDates();
         generateCalendar(currentDate.getFullYear(), currentDate.getMonth());
     </script>
 </body>
