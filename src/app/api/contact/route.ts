@@ -48,7 +48,7 @@ async function notifyHostOfMessage(msg: ContactMessage) {
     await resend.emails.send({
       from: 'Vista Loop Villa <noreply@vistaloopvilla.com>',
       to: hostEmail,
-      replyTo: msg.email,
+      reply_to: msg.email,
       subject: `New message from ${msg.name} – Vista Loop Villa`,
       html: `
         <h2>New Contact Message</h2>
