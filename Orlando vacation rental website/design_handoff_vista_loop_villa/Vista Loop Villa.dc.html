@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{font-family:'Hanken Grotesk',system-ui,sans-serif;color:#2c2723;background:#ffffff;-webkit-font-smoothing:antialiased;}
+  button{font-family:inherit;}
+  ::selection{background:#ecd9cc;}
+  [data-nav-links]{display:flex;}
+  [data-menu-btn]{display:none;}
+  @media(max-width:880px){
+    [data-nav-links]{display:none;}
+    [data-menu-btn]{display:flex;}
+    [data-hero]{flex-direction:column !important;}
+    [data-split]{flex-direction:column !important;}
+    [data-pad]{padding-left:20px !important;padding-right:20px !important;}
+  }
+  @keyframes vfade{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+</style>
+</helmet>
+
+<div style="min-height:100vh;display:flex;flex-direction:column;">
+
+  <header style="position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.86);backdrop-filter:saturate(140%) blur(10px);border-bottom:1px solid #ecebe6;">
+    <div data-pad style="max-width:1180px;margin:0 auto;padding:0 32px;height:74px;display:flex;align-items:center;justify-content:space-between;gap:24px;">
+      <button onClick="{{ goHome }}" style="display:flex;align-items:center;gap:11px;background:none;border:none;cursor:pointer;padding:0;">
+        <span style="width:30px;height:30px;border-radius:8px;background:#bd6a44;display:flex;align-items:center;justify-content:center;color:#fff;font-family:'Cormorant Garamond',serif;font-size:17px;">V</span>
+        <span style="font-family:'Cormorant Garamond',serif;font-size:20px;letter-spacing:.01em;color:#2c2723;">Vista Loop Villa</span>
+      </button>
+      <nav data-nav-links style="align-items:center;gap:28px;">
+        <sc-for list="{{ navItems }}" as="item" hint-placeholder-count="7">
+          <button onClick="{{ item.onClick }}" style="{{ item.style }}">{{ item.label }}</button>
+        </sc-for>
+      </nav>
+      <div style="display:flex;align-items:center;gap:14px;">
+        <button onClick="{{ goBook }}" data-nav-links style="background:#bd6a44;color:#fff;border:none;border-radius:999px;padding:11px 22px;font-size:14.5px;font-weight:600;cursor:pointer;letter-spacing:.01em;">Book your stay</button>
+        <button data-menu-btn onClick="{{ toggleMenu }}" style="display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:8px;">
+          <span style="width:22px;height:2px;background:#2c2723;border-radius:2px;"></span>
+          <span style="width:22px;height:2px;background:#2c2723;border-radius:2px;"></span>
+          <span style="width:22px;height:2px;background:#2c2723;border-radius:2px;"></span>
+        </button>
+      </div>
+    </div>
+    <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+      <div style="border-top:1px solid #ecebe6;background:#fff;padding:12px 20px 18px;display:flex;flex-direction:column;gap:4px;">
+        <sc-for list="{{ navItems }}" as="item" hint-placeholder-count="7">
+          <button onClick="{{ item.onClick }}" style="text-align:left;background:none;border:none;cursor:pointer;font-size:16px;color:#2c2723;padding:11px 4px;font-weight:500;">{{ item.label }}</button>
+        </sc-for>
+        <button onClick="{{ goBook }}" style="margin-top:8px;background:#bd6a44;color:#fff;border:none;border-radius:999px;padding:13px;font-size:15px;font-weight:600;cursor:pointer;">Book your stay</button>
+      </div>
+    </sc-if>
+  </header>
+
+  <main style="flex:1;">
+
+    <!-- ===================== HOME ===================== -->
+    <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+    <div key="{{ homeKey }}">
+
+      <!-- Hero A: editorial -->
+      <sc-if value="{{ isHomeA }}" hint-placeholder-val="{{ true }}">
+      <section data-pad style="max-width:1180px;margin:0 auto;padding:72px 32px 64px;">
+        <div data-hero style="display:flex;gap:56px;align-items:center;">
+          <div style="flex:1;min-width:300px;">
+            <div style="font-size:12.5px;letter-spacing:.22em;text-transform:uppercase;color:#bd6a44;font-weight:600;margin-bottom:20px;">Davenport · Orlando, Florida</div>
+            <h1 style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:clamp(38px,5vw,60px);line-height:1.04;letter-spacing:-0.01em;margin:0 0 22px;color:#2a231d;">Your home away from home, minutes from the magic.</h1>
+            <p style="font-size:18px;line-height:1.6;color:#6f655c;max-width:480px;margin:0 0 32px;">A luxury 4-bedroom villa with a private heated pool in a gated resort community, just 15 minutes from Walt Disney World. Sleeps 8 in airy, light-filled comfort.</p>
+            <div style="display:flex;gap:14px;flex-wrap:wrap;margin-bottom:28px;">
+              <button onClick="{{ goBook }}" style="background:#bd6a44;color:#fff;border:none;border-radius:999px;padding:15px 30px;font-size:15.5px;font-weight:600;cursor:pointer;">Check availability</button>
+              <button onClick="{{ goGallery }}" style="background:#fff;color:#2c2723;border:1px solid #d8d4ca;border-radius:999px;padding:15px 30px;font-size:15.5px;font-weight:600;cursor:pointer;">View the gallery</button>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:14.5px;color:#6f655c;">
+              <span style="color:#c2a36b;letter-spacing:2px;">★★★★★</span>
+              <span><strong style="color:#2c2723;">4.9</strong> · 47 guest reviews</span>
+            </div>
+          </div>
+          <div style="flex:1;min-width:300px;">
+            <div style="position:relative;border-radius:20px;overflow:hidden;aspect-ratio:4/3;background:repeating-linear-gradient(135deg,#efe0d3 0,#efe0d3 17px,#e7d2c0 17px,#e7d2c0 34px);border:1px solid #e6d4c4;display:flex;align-items:center;justify-content:center;">
+              <span style="font-family:monospace;font-size:12px;letter-spacing:.1em;color:#a8836a;text-transform:uppercase;">photo, pool &amp; villa exterior</span>
+            </div>
+          </div>
+        </div>
+      </section>
+      </sc-if>
+
+      <!-- Hero B: resort immersive -->
+      <sc-if value="{{ isHomeB }}" hint-placeholder-val="{{ false }}">
+      <section style="position:relative;">
+        <div style="position:relative;height:clamp(460px,68vh,640px);background:repeating-linear-gradient(135deg,#d8c3b0 0,#d8c3b0 20px,#cbb29c 20px,#cbb29c 40px);display:flex;align-items:center;justify-content:center;overflow:hidden;">
+          <span style="position:absolute;top:18px;left:0;right:0;text-align:center;font-family:monospace;font-size:12px;letter-spacing:.1em;color:#9a7f68;text-transform:uppercase;">photo, full-bleed hero (pool at dusk)</span>
+          <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(42,30,22,.20),rgba(42,30,22,.50));"></div>
+          <div data-pad style="position:relative;text-align:center;max-width:760px;padding:0 32px;">
+            <div style="font-size:12.5px;letter-spacing:.24em;text-transform:uppercase;color:#f0e2d6;font-weight:600;margin-bottom:18px;">Davenport · Orlando, Florida</div>
+            <h1 style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:clamp(40px,6vw,66px);line-height:1.03;letter-spacing:-0.01em;margin:0 0 20px;color:#fff;">Where your Orlando story begins.</h1>
+            <p style="font-size:18px;line-height:1.6;color:#f3ebe2;max-width:540px;margin:0 auto 30px;">A luxury 4-bedroom villa with a private heated pool, gated and serene, 15 minutes from the parks.</p>
+            <button onClick="{{ goBook }}" style="background:#fff;color:#2c2723;border:none;border-radius:999px;padding:16px 34px;font-size:16px;font-weight:600;cursor:pointer;">Book your stay</button>
+          </div>
+        </div>
+        <div data-pad style="max-width:1000px;margin:-46px auto 0;padding:0 32px;position:relative;z-index:2;">
+          <div data-split style="background:#fff;border:1px solid #ecebe6;border-radius:18px;box-shadow:0 18px 50px -24px rgba(22,43,64,.32);padding:14px;display:flex;gap:8px;align-items:stretch;">
+            <div style="flex:1;min-width:140px;padding:12px 18px;border-right:1px solid #f0eee9;">
+              <div style="font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#8a96a5;margin-bottom:5px;">Check in</div>
+              <div style="font-size:15.5px;color:#2c2723;font-weight:500;">Select dates</div>
+            </div>
+            <div style="flex:1;min-width:140px;padding:12px 18px;border-right:1px solid #f0eee9;">
+              <div style="font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#8a96a5;margin-bottom:5px;">Check out</div>
+              <div style="font-size:15.5px;color:#2c2723;font-weight:500;">Select dates</div>
+            </div>
+            <div style="flex:1;min-width:120px;padding:12px 18px;">
+              <div style="font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#8a96a5;margin-bottom:5px;">Nights</div>
+              <div style="font-size:15.5px;color:#2c2723;font-weight:500;">Flexible</div>
+            </div>
+            <button onClick="{{ goBook }}" style="background:#bd6a44;color:#fff;border:none;border-radius:13px;padding:0 28px;font-size:15.5px;font-weight:600;cursor:pointer;white-space:nowrap;">Check availability</button>
+          </div>
+        </div>
+      </section>
+      </sc-if>
+
+      <!-- Stats strip -->
+      <section data-pad style="max-width:1180px;margin:0 auto;padding:48px 32px;">
+        <div style="display:flex;flex-wrap:wrap;gap:24px;justify-content:space-between;border-top:1px solid #ecebe6;border-bottom:1px solid #ecebe6;padding:28px 0;">
+          <div style="text-align:center;min-width:120px;flex:1;"><div style="font-family:'Cormorant Garamond',serif;font-size:34px;color:#2a231d;">4</div><div style="font-size:13.5px;color:#6f655c;margin-top:2px;">Bedrooms</div></div>
+          <div style="text-align:center;min-width:120px;flex:1;"><div style="font-family:'Cormorant Garamond',serif;font-size:34px;color:#2a231d;">4</div><div style="font-size:13.5px;color:#6f655c;margin-top:2px;">Bathrooms</div></div>
+          <div style="text-align:center;min-width:120px;flex:1;"><div style="font-family:'Cormorant Garamond',serif;font-size:34px;color:#2a231d;">8</div><div style="font-size:13.5px;color:#6f655c;margin-top:2px;">Sleeps</div></div>
+          <div style="text-align:center;min-width:120px;flex:1;"><div style="font-family:'Cormorant Garamond',serif;font-size:34px;color:#2a231d;">Heated</div><div style="font-size:13.5px;color:#6f655c;margin-top:2px;">Private pool</div></div>
+          <div style="text-align:center;min-width:120px;flex:1;"><div style="font-family:'Cormorant Garamond',serif;font-size:34px;color:#2a231d;">Gated</div><div style="font-size:13.5px;color:#6f655c;margin-top:2px;">Community</div></div>
+        </div>
+      </section>
+
+      <!-- Features -->
+      <section style="background:#f7f3ec;">
+        <div data-pad style="max-width:1180px;margin:0 auto;padding:80px 32px;">
+          <div style="max-width:560px;margin-bottom:44px;">
+            <div style="font-size:12.5px;letter-spacing:.2em;text-transform:uppercase;color:#bd6a44;font-weight:600;margin-bottom:14px;">Why guests love it</div>
+            <h2 style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:clamp(28px,3.4vw,40px);line-height:1.1;margin:0;color:#2a231d;">Everything you need for an easy Orlando trip.</h2>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px;">
+            <div style="background:#fff;border:1px solid #ece6da;border-radius:18px;padding:34px;">
+              <div style="width:34px;height:34px;border-radius:9px;background:#f0dccd;margin-bottom:20px;"></div>
+              <h3 style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:22px;margin:0 0 10px;color:#2a231d;">Spacious &amp; private</h3>
+              <p style="font-size:15px;line-height:1.6;color:#6f655c;margin:0;">Four en-suite bedrooms and open living spaces give everyone room to spread out, perfect for families or two couples traveling together.</p>
+            </div>
+            <div style="background:#fff;border:1px solid #ece6da;border-radius:18px;padding:34px;">
+              <div style="width:34px;height:34px;border-radius:9px;background:#f0dccd;margin-bottom:20px;"></div>
+              <h3 style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:22px;margin:0 0 10px;color:#2a231d;">Resort-style pool</h3>
+              <p style="font-size:15px;line-height:1.6;color:#6f655c;margin:0;">Unwind in your own screened, heated pool after a long day at the parks, sunshine without the crowds, lizards, or queues.</p>
+            </div>
+            <div style="background:#fff;border:1px solid #ece6da;border-radius:18px;padding:34px;">
+              <div style="width:34px;height:34px;border-radius:9px;background:#f0dccd;margin-bottom:20px;"></div>
+              <h3 style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:22px;margin:0 0 10px;color:#2a231d;">Ideal location</h3>
+              <p style="font-size:15px;line-height:1.6;color:#6f655c;margin:0;">Fifteen minutes to Disney, close to championship golf, outlet shopping, and restaurants, all from a quiet gated street.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Gallery preview -->
+      <section data-pad style="max-width:1180px;margin:0 auto;padding:80px 32px;">
+        <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:32px;flex-wrap:wrap;">
+          <div>
+            <div style="font-size:12.5px;letter-spacing:.2em;text-transform:uppercase;color:#bd6a44;font-weight:600;margin-bottom:14px;">A peek inside</div>
+            <h2 style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:clamp(28px,3.4vw,40px);line-height:1.1;margin:0;color:#2a231d;">Light, airy, and made for relaxing.</h2>
+          </div>
+          <button onClick="{{ goGallery }}" style="background:none;border:none;color:#bd6a44;font-size:15.5px;font-weight:600;cursor:pointer;white-space:nowrap;">View full gallery →</button>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:200px;gap:14px;">
+          <div style="grid-column:span 2;grid-row:span 2;position:relative;border-radius:16px;overflow:hidden;background:repeating-linear-gradient(135deg,#eef2f5 0,#eef2f5 16px,#e6ebef 16px,#e6ebef 32px);border:1px solid #e7e2d8;display:flex;align-items:center;justify-content:center;"><span style="font-family:monospace;font-size:11px;letter-spacing:.1em;color:#8a99a8;text-transform:uppercase;">living room</span></div>
+          <div style="position:relative;border-radius:16px;overflow:hidden;background:repeating-linear-gradient(135deg,#eef2f5 0,#eef2f5 16px,#e6ebef 16px,#e6ebef 32px);border:1px solid #e7e2d8;display:flex;align-items:center;justify-content:center;"><span style="font-family:monospace;font-size:11px;letter-spacing:.1em;color:#8a99a8;text-transform:uppercase;">kitchen</span></div>
+          <div style="position:relative;border-radius:16px;overflow:hidden;background:repeating-linear-gradient(135deg,#eef2f5 0,#eef2f5 16px,#e6ebef 16px,#e6ebef 32px);border:1px solid #e7e2d8;display:flex;align-items:center;justify-content:center;"><span style="font-family:monospace;font-size:11px;letter-spacing:.1em;color:#8a99a8;text-transform:uppercase;">primary suite</span></div>
+          <div style="position:relative;border-radius:16px;overflow:hidden;background:repeating-linear-gradient(135deg,#eef2f5 0,#eef2f5 16px,#e6ebef 16px,#e6ebef 32px);border:1px solid #e7e2d8;display:flex;align-items:center;justify-content:center;"><span style="font-family:monospace;font-size:11px;letter-spacing:.1em;color:#8a99a8;text-transform:uppercase;">pool deck</span></div>
+          <div style="position:relative;border-radius:16px;overflow:hidden;background:repeating-linear-gradient(135deg,#eef2f5 0,#eef2f5 16px,#e6ebef 16px,#e6ebef 32px);border:1px solid #e7e2d8;display:flex;align-items:center;justify-content:center;"><span style="font-family:monospace;font-size:11px;letter-spacing:.1em;color:#8a99a8;text-transform:uppercase;">dining</span></div>
+        </div>
+      </section>
+
+      <!-- Location preview -->
+      <section style="background:#f7f3ec;">
+        <div data-pad style="max-width:1180px;margin:0 auto;padding:80px 32px;">
+          <div data-split style="display:flex;gap:48px;align-items:center;">
+            <div style="flex:1.2;min-width:300px;position:relative;border-radius:18px;overflow:hidden;aspect-ratio:16/11;border:1px solid #ddd3c4;"><iframe title="Map of Vista Park Resort, Davenport FL" src="https://maps.google.com/maps?q=Vista%20Loop%2C%20Davenport%2C%20FL%2033897&t=&z=14&ie=UTF8&iwloc=&output=embed" style="width:100%;height:100%;border:0;display:block;" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
+            <div style="flex:1;min-width:280px;">
+              <div style="font-size:12.5px;letter-spacing:.2em;text-transform:uppercase;color:#bd6a44;font-weight:600;margin-bottom:14px;">Perfectly placed</div>
+              <h2 style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:clamp(28px,3.4vw,40px);line-height:1.1;margin:0 0 24px;color:#2a231d;">Close to everything, away from the noise.</h2>
+              <div style="display:flex;flex-direction:column;gap:2px;">
+                <div style="display:flex;justify-content:space-between;padding:13px 0;border-bottom:1px solid #e6ddcd;"><span style="font-size:15.5px;color:#2c2723;">Walt Disney World</span><span style="font-size:15px;color:#bd6a44;font-weight:600;">15 min</span></div>
+                <div style="display:flex;justify-content:space-between;padding:13px 0;border-bottom:1px solid #e6ddcd;"><span style="font-size:15.5px;color:#2c2723;">ChampionsGate golf</span><span style="font-size:15px;color:#bd6a44;font-weight:600;">10 min</span></div>
+                <div style="display:flex;justify-content:space-between;padding:13px 0;border-bottom:1px solid #e6ddcd;"><span style="font-size:15.5px;color:#2c2723;">Universal Orlando</span><span style="font-size:15px;color:#bd6a44;font-weight:600;">30 min</span></div>
+                <div style="display:flex;justify-content:space-between;padding:13px 0;"><span style="font-size:15.5px;color:#2c2723;">Orlando Int’l Airport (MCO)</span><span style="font-size:15px;color:#bd6a44;font-weight:600;">35 min</span></div>
+              </div>
+              <button onClick="{{ goLocation }}" style="margin-top:24px;background:none;border:none;color:#bd6a44;font-size:15.5px;font-weight:600;cursor:pointer;padding:0;">Explore the area →</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Reviews preview -->
+      <section data-pad style="max-width:1180px;margin:0 auto;padding:80px 32px;">
+        <div style="text-align:center;max-width:560px;margin:0 auto 44px;">
+          <div style="font-size:12.5px;letter-spacing:.2em;text-transform:uppercase;color:#bd6a44;font-weight:600;margin-bottom:14px;">Guest reviews</div>
+          <h2 style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:clamp(28px,3.4vw,40px);line-height:1.1;margin:0;color:#2a231d;">Loved by families and golfers alike.</h2>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:22px;">
+          <div style="background:#fff;border:1px solid #ecebe6;border-radius:18px;padding:30px;">
+            <div style="color:#c2a36b;letter-spacing:2px;font-size:14px;margin-bottom:14px;">★★★★★</div>
+            <p style="font-family:'Cormorant Garamond',serif;font-size:18px;line-height:1.55;color:#2b3a4c;margin:0 0 20px;">“Spotless, beautiful, and the pool was the highlight for our kids. We’ll be back next spring.”</p>
+            <div style="font-size:14px;color:#6f655c;"><strong style="color:#2c2723;">The Harrisons</strong> · Atlanta, GA</div>
+          </div>
+          <div style="background:#fff;border:1px solid #ecebe6;border-radius:18px;padding:30px;">
+            <div style="color:#c2a36b;letter-spacing:2px;font-size:14px;margin-bottom:14px;">★★★★★</div>
+            <p style="font-family:'Cormorant Garamond',serif;font-size:18px;line-height:1.55;color:#2b3a4c;margin:0 0 20px;">“Ten minutes to the first tee and fifteen to Disney. The perfect base for our golf-and-parks week.”</p>
+            <div style="font-size:14px;color:#6f655c;"><strong style="color:#2c2723;">Mark D.</strong> · Columbus, OH</div>
+          </div>
+          <div style="background:#fff;border:1px solid #ecebe6;border-radius:18px;padding:30px;">
+            <div style="color:#c2a36b;letter-spacing:2px;font-size:14px;margin-bottom:14px;">★★★★★</div>
+            <p style="font-family:'Cormorant Garamond',serif;font-size:18px;line-height:1.55;color:#2b3a4c;margin:0 0 20px;">“Communication was effortless and the villa was even better than the photos. Truly a home away from home.”</p>
+            <div style="font-size:14px;color:#6f655c;"><strong style="color:#2c2723;">Priya &amp; Sam</strong> · Toronto, ON</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA band -->
+      <section data-pad style="max-width:1180px;margin:0 auto;padding:0 32px 90px;">
+        <div data-split style="background:#bd6a44;border-radius:24px;padding:64px 56px;display:flex;align-items:center;justify-content:space-between;gap:40px;flex-wrap:wrap;">
+          <div style="min-width:280px;">
+            <h2 style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:clamp(28px,3.4vw,40px);line-height:1.08;margin:0 0 12px;color:#fff;">Ready for your Orlando getaway?</h2>
+            <p style="font-size:17px;line-height:1.55;color:#f0ddd0;margin:0;max-width:440px;">Check the live calendar and send a request, we usually reply within a few hours.</p>
+          </div>
+          <button onClick="{{ goBook }}" style="background:#fff;color:#2c2723;border:none;border-radius:999px;padding:16px 34px;font-size:16px;font-weight:600;cursor:pointer;white-space:nowrap;">Check availability</button>
+        </div>
+      </section>
+
+    </div>
+    </sc-if>
+
+    <!-- ===================== GALLERY ===================== -->
+    <sc-if value="{{ isGallery }}" hint-placeholder-val="{{ false }}">
+    <div data-pad style="max-width:1180px;margin:0 auto;padding:64px 32px 90px;">
+      <div style="font-size:12.5px;letter-spacing:.2em;text-transform:uppercase;color:#bd6a44;font-weight:600;margin-bottom:14px;">Gallery</div>
+      <h1 style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:clamp(34px,4.6vw,52px);line-height:1.05;margin:0 0 14px;color:#2a231d;">Take the tour</h1>
+      <p style="font-size:18px;color:#6f655c;max-width:540px;margin:0 0 48px;line-height:1.6;">Replace these placeholders with your professional photos, drop them in and the layout adapts automatically.</p>
+
+      <h3 style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:24px;color:#2a231d;margin:0 0 18px;">Pool &amp; outdoor</h3>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-bottom:48px;">
+        <div style="aspect-ratio:4/3;border-radius:16px;background:repeating-linear-gradient(135deg,#efe0d3 0,#efe0d3 16px,#e7d2c0 16px,#e7d2c0 32px);border:1px solid #e6d4c4;display:flex;align-items:center;justify-content:center;"><span style="font-family:monospace;font-size:11px;letter-spacing:.08em;color:#a8836a;text-transform:uppercase;">heated pool</span></div>
+        <div style="aspect-ratio:4/3;border-radius:16px;background:repeating-linear-gradient(135deg,#efe0d3 0,#efe0d3 16px,#e7d2c0 16px,#e7d2c0 32px);border:1px solid #e6d4c4;display:flex;align-items:center;justify-content:center;"><span style="font-family:monospace;font-size:11px;letter-spacing:.08em;color:#a8836a;text-transform:uppercase;">screened lanai</span></div>
+        <div style="aspect-ratio:4/3;border-radius:16px;background:repeating-linear-gradient(135deg,#efe0d3 0,#efe0d3 16px,#e7d2c0 16px,#e7d2c0 32px);border:1px solid #e6d4c4;display:flex;align-items:center;justify-content:center;"><span style="font-family:monospace;font-size:11px;letter-spacing:.08em;color:#a8836a;text-transform:uppercase;">sun loungers</span></div>
+        <div style="aspect-ratio:4/3;border-radius:16px;background:repeating-linear-gradient(135deg,#efe0d3 0,#efe0d3 16px,#e7d2c0 16px,#e7d2c0 32px);border:1px solid #e6d4c4;display:flex;align-items:center;justify-content:center;"><span style="font-family:monospace;font-size:11px;letter-spacing:.08em;color:#a8836a;text-transform:uppercase;">exterior</span></div>
+      </div>
+
+      <h3 style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:24px;color:#2a231d;margin:0 0 18px;">Living &amp; kitchen</h3>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-bottom:48px;">
+        <div style="aspect-ratio:4/3;border-radius:16px;background:repeating-linear-gradient(135deg,#eef2f5 0,#eef2f5 16px,#e6ebef 16px,#e6ebef 32px);border:1px solid #e7e2d8;display:flex;align-items:center;justify-content:center;"><span style="font-family:monospace;font-size:11px;letter-spacing:.08em;color:#8a99a8;text-transform:uppercase;">living room</span></div>
+        <div style="aspect-ratio:4/3;border-radius:16px;background:repeating-linear-gradient(135deg,#eef2f5 0,#eef2f5 16px,#e6ebef 16px,#e6ebef 32px);border:1px solid #e7e2d8;display:flex;align-items:center;justify-content:center;"><span style="font-family:monospace;font-size:11px;letter-spacing:.08em;color:#8a99a8;text-transform:uppercase;">kitchen</span></div>
+        <div style="aspect-ratio:4/3;border-radius:16px;background:repeating-linear-gradient(135deg,#eef2f5 0,#eef2f5 16px,#e6ebef 16px,#e6ebef 32px);border:1px solid #e7e2d8;display:flex;align-items:center;justify-content:center;"><span style="font-family:monospace;font-size:11px;letter-spacing:.08em;color:#8a99a8;text-transform:uppercase;">dining table</span></div>
+      </div>
+
+      <h3 style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:24px;color:#2a231d;margin:0 0 18px;">Bedrooms &amp; baths</h3>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;">
+        <div style="aspect-ratio:4/3;border-radius:16px;background:repeating-linear-gradient(135deg,#eef2f5 0,#eef2f5 16px,#e6ebef 16px,#e6ebef 32px);border:1px solid #e7e2d8;display:flex;align-items:center;justify-content:center;"><span style="font-family:monospace;font-size:11px;letter-spacing:.08em;color:#8a99a8;text-transform:uppercase;">primary suite</span></div>
+        <div style="aspect-ratio:4/3;border-radius:16px;background:repeating-linear-gradient(135deg,#eef2f5 0,#eef2f5 16px,#e6ebef 16px,#e6ebef 32px);border:1px solid #e7e2d8;display:flex;align-items:center;justify-content:center;"><span style="font-family:monospace;font-size:11px;letter-spacing:.08em;color:#8a99a8;text-transform:uppercase;">kids’ room</span></div>
+        <div style="aspect-ratio:4/3;border-radius:16px;background:repeating-linear-gradient(135deg,#eef2f5 0,#eef2f5 16px,#e6ebef 16px,#e6ebef 32px);border:1px solid #e7e2d8;display:flex;align-items:center;justify-content:center;"><span style="font-family:monospace;font-size:11px;letter-spacing:.08em;color:#8a99a8;text-transform:uppercase;">guest room</span></div>
+        <div style="aspect-ratio:4/3;border-radius:16px;background:repeating-linear-gradient(135deg,#eef2f5 0,#eef2f5 16px,#e6ebef 16px,#e6ebef 32px);border:1px solid #e7e2d8;display:flex;align-items:center;justify-content:center;"><span style="font-family:monospace;font-size:11px;letter-spacing:.08em;color:#8a99a8;text-transform:uppercase;">en-suite bath</span></div>
+      </div>
+    </div>
+    </sc-if>
+
+    <!-- ===================== AVAILABILITY ===================== -->
+    <sc-if value="{{ isBook }}" hint-placeholder-val="{{ false }}">
+    <div data-pad style="max-width:1180px;margin:0 auto;padding:64px 32px 90px;">
+      <div style="font-size:12.5px;letter-spacing:.2em;text-transform:uppercase;color:#bd6a44;font-weight:600;margin-bottom:14px;">Availability</div>
+      <h1 style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:clamp(34px,4.6vw,52px);line-height:1.05;margin:0 0 14px;color:#2a231d;">Check dates &amp; request to book</h1>
+      <p style="font-size:18px;color:#6f655c;max-width:560px;margin:0 0 44px;line-height:1.6;">Pick your check-in and check-out dates below, then send a request, we’ll confirm your stay by email, usually within a few hours.</p>
+
+      <div data-split style="display:flex;gap:32px;align-items:flex-start;">
+        <!-- Calendar -->
+        <div style="flex:1.3;min-width:300px;background:#fff;border:1px solid #ecebe6;border-radius:20px;padding:28px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+            <button onClick="{{ prevMonth }}" style="{{ prevBtnStyle }}">‹</button>
+            <div style="font-family:'Cormorant Garamond',serif;font-size:21px;color:#2a231d;">{{ monthLabel }}</div>
+            <button onClick="{{ nextMonth }}" style="width:38px;height:38px;border-radius:10px;border:1px solid #e2ddd3;background:#fff;cursor:pointer;font-size:18px;color:#2c2723;">›</button>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:6px;">
+            <div style="text-align:center;font-size:11.5px;color:#94a0ae;font-weight:600;padding:6px 0;">Su</div>
+            <div style="text-align:center;font-size:11.5px;color:#94a0ae;font-weight:600;padding:6px 0;">Mo</div>
+            <div style="text-align:center;font-size:11.5px;color:#94a0ae;font-weight:600;padding:6px 0;">Tu</div>
+            <div style="text-align:center;font-size:11.5px;color:#94a0ae;font-weight:600;padding:6px 0;">We</div>
+            <div style="text-align:center;font-size:11.5px;color:#94a0ae;font-weight:600;padding:6px 0;">Th</div>
+            <div style="text-align:center;font-size:11.5px;color:#94a0ae;font-weight:600;padding:6px 0;">Fr</div>
+            <div style="text-align:center;font-size:11.5px;color:#94a0ae;font-weight:600;padding:6px 0;">Sa</div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:2px;">
+            <sc-for list="{{ calCells }}" as="c" hint-placeholder-count="35">
+              <div onClick="{{ c.onClick }}" style="{{ c.style }}">{{ c.day }}</div>
+            </sc-for>
+          </div>
+          <div style="display:flex;gap:20px;flex-wrap:wrap;margin-top:22px;padding-top:18px;border-top:1px solid #f0eee9;">
+            <div style="display:flex;align-items:center;gap:7px;font-size:13px;color:#6f655c;"><span style="width:13px;height:13px;border-radius:4px;background:#bd6a44;"></span>Selected</div>
+            <div style="display:flex;align-items:center;gap:7px;font-size:13px;color:#6f655c;"><span style="width:13px;height:13px;border-radius:4px;background:#f3e3d9;"></span>Your stay</div>
+            <div style="display:flex;align-items:center;gap:7px;font-size:13px;color:#6f655c;"><span style="width:13px;height:13px;border-radius:4px;background:#fff;border:1px solid #d9d4ca;"></span>Available</div>
+            <div style="display:flex;align-items:center;gap:7px;font-size:13px;color:#a6aeb8;"><span style="width:13px;height:13px;border-radius:4px;background:#f1f1ee;"></span>Booked</div>
+          </div>
+        </div>
+
+        <!-- Summary -->
+        <div style="flex:1;min-width:280px;background:#f7f3ec;border:1px solid #ece6da;border-radius:20px;padding:30px;">
+          <h3 style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:24px;color:#2a231d;margin:0 0 20px;">Your stay</h3>
+
+          <div style="display:flex;gap:0;border:1px solid #e2ddd3;border-radius:13px;overflow:hidden;margin-bottom:20px;">
+            <div style="flex:1;padding:13px 16px;border-right:1px solid #e2ddd3;">
+              <div style="font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#8a96a5;margin-bottom:4px;">Check in</div>
+              <div style="font-size:15px;color:#2c2723;font-weight:500;">{{ checkInLabel }}</div>
+            </div>
+            <div style="flex:1;padding:13px 16px;">
+              <div style="font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#8a96a5;margin-bottom:4px;">Check out</div>
+              <div style="font-size:15px;color:#2c2723;font-weight:500;">{{ checkOutLabel }}</div>
+            </div>
+          </div>
+
+          <sc-if value="{{ hasDates }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;justify-content:space-between;align-items:baseline;padding:18px 0;border-top:1px solid #e6ddcd;margin-bottom:18px;">
+              <span style="font-size:15px;color:#6f655c;">Length of stay</span>
+              <span style="font-family:'Cormorant Garamond',serif;font-size:22px;color:#2a231d;">{{ nightsLabel }}</span>
+            </div>
+          </sc-if>
+          <sc-if value="{{ noDates }}" hint-placeholder-val="{{ true }}">
+            <p style="font-size:14.5px;color:#7a8694;line-height:1.55;margin:0 0 20px;padding:18px 0;border-top:1px solid #e6ddcd;">Select your check-in and check-out dates on the calendar.</p>
+          </sc-if>
+
+          <button onClick="{{ requestBook }}" style="{{ requestBtnStyle }}">Request to book</button>
+
+          <sc-if value="{{ bookingSent }}" hint-placeholder-val="{{ false }}">
+            <div style="margin-top:16px;background:#e7f1ea;border:1px solid #c7e0d2;border-radius:12px;padding:16px;">
+              <div style="font-size:14.5px;font-weight:600;color:#1f6b46;margin-bottom:4px;">Request sent ✓</div>
+              <div style="font-size:13.5px;color:#3a6b53;line-height:1.5;">Thanks! We’ll confirm your dates by email within a few hours.</div>
+            </div>
+          </sc-if>
+          <sc-if value="{{ bookingError }}" hint-placeholder-val="{{ false }}">
+            <div style="margin-top:16px;font-size:13.5px;color:#b4564b;">Please select both check-in and check-out dates first.</div>
+          </sc-if>
+        </div>
+      </div>
+    </div>
+    </sc-if>
+
+    <!-- ===================== LOCATION ===================== -->
+    <sc-if value="{{ isLocation }}" hint-placeholder-val="{{ false }}">
+    <div>
+      <div data-pad style="max-width:1180px;margin:0 auto;padding:64px 32px 40px;">
+        <div style="font-size:12.5px;letter-spacing:.2em;text-transform:uppercase;color:#bd6a44;font-weight:600;margin-bottom:14px;">Location &amp; area</div>
+        <h1 style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:clamp(34px,4.6vw,52px);line-height:1.05;margin:0 0 14px;color:#2a231d;">Vista Park Resort, Davenport</h1>
+        <p style="font-size:18px;color:#6f655c;max-width:560px;margin:0 0 36px;line-height:1.6;">A quiet, gated community on Vista Loop, central to the parks, golf, and everything Central Florida.</p>
+        <div style="position:relative;border-radius:20px;overflow:hidden;height:clamp(280px,42vh,420px);border:1px solid #ddd3c4;">
+          <iframe title="Map of Vista Loop, Davenport FL" src="https://maps.google.com/maps?q=Vista%20Loop%2C%20Davenport%2C%20FL%2033897&t=&z=14&ie=UTF8&iwloc=&output=embed" style="width:100%;height:100%;border:0;display:block;" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+      </div>
+      <div data-pad style="max-width:1180px;margin:0 auto;padding:32px 32px 40px;">
+        <h2 style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:28px;color:#2a231d;margin:0 0 22px;">Drive times</h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;">
+          <div style="background:#fff;border:1px solid #ecebe6;border-radius:16px;padding:24px;"><div style="font-family:'Cormorant Garamond',serif;font-size:30px;color:#bd6a44;">15 min</div><div style="font-size:15px;color:#2c2723;margin-top:4px;">Walt Disney World</div></div>
+          <div style="background:#fff;border:1px solid #ecebe6;border-radius:16px;padding:24px;"><div style="font-family:'Cormorant Garamond',serif;font-size:30px;color:#bd6a44;">10 min</div><div style="font-size:15px;color:#2c2723;margin-top:4px;">ChampionsGate golf</div></div>
+          <div style="background:#fff;border:1px solid #ecebe6;border-radius:16px;padding:24px;"><div style="font-family:'Cormorant Garamond',serif;font-size:30px;color:#bd6a44;">30 min</div><div style="font-size:15px;color:#2c2723;margin-top:4px;">Universal Orlando</div></div>
+          <div style="background:#fff;border:1px solid #ecebe6;border-radius:16px;padding:24px;"><div style="font-family:'Cormorant Garamond',serif;font-size:30px;color:#bd6a44;">20 min</div><div style="font-size:15px;color:#2c2723;margin-top:4px;">Outlet shopping</div></div>
+          <div style="background:#fff;border:1px solid #ecebe6;border-radius:16px;padding:24px;"><div style="font-family:'Cormorant Garamond',serif;font-size:30px;color:#bd6a44;">6 min</div><div style="font-size:15px;color:#2c2723;margin-top:4px;">Publix grocery</div></div>
+          <div style="background:#fff;border:1px solid #ecebe6;border-radius:16px;padding:24px;"><div style="font-family:'Cormorant Garamond',serif;font-size:30px;color:#bd6a44;">35 min</div><div style="font-size:15px;color:#2c2723;margin-top:4px;">Orlando Int’l (MCO)</div></div>
+        </div>
+      </div>
+      <section style="background:#f7f3ec;">
+        <div data-pad style="max-width:1180px;margin:0 auto;padding:64px 32px;">
+          <h2 style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:28px;color:#2a231d;margin:0 0 26px;">What’s nearby</h2>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:22px;">
+            <div style="background:#fff;border:1px solid #ece6da;border-radius:18px;padding:30px;"><h3 style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:21px;margin:0 0 10px;color:#2a231d;">Theme parks</h3><p style="font-size:15px;line-height:1.6;color:#6f655c;margin:0;">Disney, Universal, SeaWorld and LEGOLAND are all within easy reach for park-hopping days.</p></div>
+            <div style="background:#fff;border:1px solid #ece6da;border-radius:18px;padding:30px;"><h3 style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:21px;margin:0 0 10px;color:#2a231d;">Championship golf</h3><p style="font-size:15px;line-height:1.6;color:#6f655c;margin:0;">ChampionsGate, Reunion and Mystic Dunes put dozens of acclaimed courses on your doorstep.</p></div>
+            <div style="background:#fff;border:1px solid #ece6da;border-radius:18px;padding:30px;"><h3 style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:21px;margin:0 0 10px;color:#2a231d;">Dining &amp; shopping</h3><p style="font-size:15px;line-height:1.6;color:#6f655c;margin:0;">Posner Park and the Vineland outlets cover everything from quick bites to a full day of retail.</p></div>
+            <div style="background:#fff;border:1px solid #ece6da;border-radius:18px;padding:30px;"><h3 style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:21px;margin:0 0 10px;color:#2a231d;">Nature &amp; springs</h3><p style="font-size:15px;line-height:1.6;color:#6f655c;margin:0;">Trade the crowds for a day at the crystal-clear springs and state parks of Central Florida.</p></div>
+          </div>
+        </div>
+      </section>
+    </div>
+    </sc-if>
+
+    <!-- ===================== REVIEWS ===================== -->
+    <sc-if value="{{ isReviews }}" hint-placeholder-val="{{ false }}">
+    <div data-pad style="max-width:1180px;margin:0 auto;padding:64px 32px 90px;">
+      <div style="font-size:12.5px;letter-spacing:.2em;text-transform:uppercase;color:#bd6a44;font-weight:600;margin-bottom:14px;">Reviews</div>
+      <h1 style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:clamp(34px,4.6vw,52px);line-height:1.05;margin:0 0 36px;color:#2a231d;">What guests are saying</h1>
+
+      <div data-split style="display:flex;gap:48px;align-items:center;background:#f7f3ec;border:1px solid #ece6da;border-radius:20px;padding:40px;margin-bottom:44px;">
+        <div style="text-align:center;min-width:160px;">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:64px;line-height:1;color:#2a231d;">4.9</div>
+          <div style="color:#c2a36b;letter-spacing:3px;font-size:16px;margin:10px 0 6px;">★★★★★</div>
+          <div style="font-size:14px;color:#6f655c;">47 verified reviews</div>
+        </div>
+        <div style="flex:1;min-width:240px;display:flex;flex-direction:column;gap:9px;">
+          <div style="display:flex;align-items:center;gap:12px;"><span style="font-size:13px;color:#6f655c;width:36px;">5 ★</span><div style="flex:1;height:8px;background:#e6ddcd;border-radius:99px;overflow:hidden;"><div style="width:90%;height:100%;background:#bd6a44;"></div></div></div>
+          <div style="display:flex;align-items:center;gap:12px;"><span style="font-size:13px;color:#6f655c;width:36px;">4 ★</span><div style="flex:1;height:8px;background:#e6ddcd;border-radius:99px;overflow:hidden;"><div style="width:8%;height:100%;background:#bd6a44;"></div></div></div>
+          <div style="display:flex;align-items:center;gap:12px;"><span style="font-size:13px;color:#6f655c;width:36px;">3 ★</span><div style="flex:1;height:8px;background:#e6ddcd;border-radius:99px;overflow:hidden;"><div style="width:2%;height:100%;background:#bd6a44;"></div></div></div>
+          <div style="display:flex;align-items:center;gap:12px;"><span style="font-size:13px;color:#6f655c;width:36px;">2 ★</span><div style="flex:1;height:8px;background:#e6ddcd;border-radius:99px;overflow:hidden;"><div style="width:0%;height:100%;background:#bd6a44;"></div></div></div>
+          <div style="display:flex;align-items:center;gap:12px;"><span style="font-size:13px;color:#6f655c;width:36px;">1 ★</span><div style="flex:1;height:8px;background:#e6ddcd;border-radius:99px;overflow:hidden;"><div style="width:0%;height:100%;background:#bd6a44;"></div></div></div>
+        </div>
+      </div>
+
+      <div style="columns:2;column-gap:22px;">
+        <div style="break-inside:avoid;background:#fff;border:1px solid #ecebe6;border-radius:18px;padding:28px;margin-bottom:22px;"><div style="color:#c2a36b;letter-spacing:2px;font-size:13px;margin-bottom:12px;">★★★★★</div><p style="font-family:'Cormorant Garamond',serif;font-size:17px;line-height:1.55;color:#2b3a4c;margin:0 0 16px;">“Spotless and beautiful. The pool was the highlight for our kids and the beds were so comfortable. We’ll be back next spring.”</p><div style="font-size:13.5px;color:#6f655c;"><strong style="color:#2c2723;">The Harrisons</strong> · Atlanta, GA · May 2026</div></div>
+        <div style="break-inside:avoid;background:#fff;border:1px solid #ecebe6;border-radius:18px;padding:28px;margin-bottom:22px;"><div style="color:#c2a36b;letter-spacing:2px;font-size:13px;margin-bottom:12px;">★★★★★</div><p style="font-family:'Cormorant Garamond',serif;font-size:17px;line-height:1.55;color:#2b3a4c;margin:0 0 16px;">“Ten minutes to the first tee and fifteen to Disney, the perfect base for our golf-and-parks week. Host was incredibly responsive.”</p><div style="font-size:13.5px;color:#6f655c;"><strong style="color:#2c2723;">Mark D.</strong> · Columbus, OH · Apr 2026</div></div>
+        <div style="break-inside:avoid;background:#fff;border:1px solid #ecebe6;border-radius:18px;padding:28px;margin-bottom:22px;"><div style="color:#c2a36b;letter-spacing:2px;font-size:13px;margin-bottom:12px;">★★★★★</div><p style="font-family:'Cormorant Garamond',serif;font-size:17px;line-height:1.55;color:#2b3a4c;margin:0 0 16px;">“Even better than the photos. Communication was effortless from booking to checkout. Truly a home away from home.”</p><div style="font-size:13.5px;color:#6f655c;"><strong style="color:#2c2723;">Priya &amp; Sam</strong> · Toronto, ON · Mar 2026</div></div>
+        <div style="break-inside:avoid;background:#fff;border:1px solid #ecebe6;border-radius:18px;padding:28px;margin-bottom:22px;"><div style="color:#c2a36b;letter-spacing:2px;font-size:13px;margin-bottom:12px;">★★★★★</div><p style="font-family:'Cormorant Garamond',serif;font-size:17px;line-height:1.55;color:#2b3a4c;margin:0 0 16px;">“Gated and quiet, but so close to everything. We felt safe letting the kids ride bikes and the heated pool meant swimming every evening.”</p><div style="font-size:13.5px;color:#6f655c;"><strong style="color:#2c2723;">The Nguyen family</strong> · Houston, TX · Feb 2026</div></div>
+        <div style="break-inside:avoid;background:#fff;border:1px solid #ecebe6;border-radius:18px;padding:28px;margin-bottom:22px;"><div style="color:#c2a36b;letter-spacing:2px;font-size:13px;margin-bottom:12px;">★★★★★</div><p style="font-family:'Cormorant Garamond',serif;font-size:17px;line-height:1.55;color:#2b3a4c;margin:0 0 16px;">“Roomy enough for two families. Four en-suites meant no one fought over bathrooms, a small miracle on a group trip.”</p><div style="font-size:13.5px;color:#6f655c;"><strong style="color:#2c2723;">Karen B.</strong> · Chicago, IL · Jan 2026</div></div>
+        <div style="break-inside:avoid;background:#fff;border:1px solid #ecebe6;border-radius:18px;padding:28px;margin-bottom:22px;"><div style="color:#c2a36b;letter-spacing:2px;font-size:13px;margin-bottom:12px;">★★★★★</div><p style="font-family:'Cormorant Garamond',serif;font-size:17px;line-height:1.55;color:#2b3a4c;margin:0 0 16px;">“The kitchen is fully stocked and the layout is great for entertaining. We cooked most nights and saved a fortune. Highly recommend.”</p><div style="font-size:13.5px;color:#6f655c;"><strong style="color:#2c2723;">James &amp; Olivia</strong> · London, UK · Dec 2025</div></div>
+      </div>
+    </div>
+    </sc-if>
+
+    <!-- ===================== ABOUT ===================== -->
+    <sc-if value="{{ isAbout }}" hint-placeholder-val="{{ false }}">
+    <div data-pad style="max-width:1080px;margin:0 auto;padding:64px 32px 90px;">
+      <div style="font-size:12.5px;letter-spacing:.2em;text-transform:uppercase;color:#bd6a44;font-weight:600;margin-bottom:14px;">Your hosts</div>
+      <h1 style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:clamp(34px,4.6vw,52px);line-height:1.05;margin:0 0 44px;color:#2a231d;">Hospitality is personal here.</h1>
+      <div data-split style="display:flex;gap:48px;align-items:flex-start;">
+        <div style="flex:0 0 300px;max-width:340px;">
+          <div style="aspect-ratio:1/1;border-radius:20px;background:repeating-linear-gradient(135deg,#eef2f5 0,#eef2f5 16px,#e6ebef 16px,#e6ebef 32px);border:1px solid #e7e2d8;display:flex;align-items:center;justify-content:center;"><span style="font-family:monospace;font-size:11px;letter-spacing:.08em;color:#8a99a8;text-transform:uppercase;">photo, host portrait</span></div>
+        </div>
+        <div style="flex:1;min-width:280px;">
+          <p style="font-size:19px;line-height:1.65;color:#2b3a4c;margin:0 0 20px;font-family:'Cormorant Garamond',serif;">We’re a family who fell in love with Central Florida years ago, and we built this villa to be the home we always wished we’d had on our own trips.</p>
+          <p style="font-size:16px;line-height:1.7;color:#6f655c;margin:0 0 20px;">Every detail, from the heated pool to the fully stocked kitchen and the blackout blinds in the kids’ rooms, comes from real family travel. We live nearby, so if anything comes up during your stay, we’re only a message away.</p>
+          <p style="font-size:16px;line-height:1.7;color:#6f655c;margin:0 0 32px;">Whether you’re here for the parks, a golf week, or just some quiet pool time, we want your stay to feel effortless. Welcome to your home away from home.</p>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;">
+            <div style="background:#f7f3ec;border:1px solid #ece6da;border-radius:14px;padding:20px;"><div style="font-family:'Cormorant Garamond',serif;font-size:24px;color:#2a231d;">&lt; 3 hrs</div><div style="font-size:13.5px;color:#6f655c;margin-top:3px;">Avg. reply time</div></div>
+            <div style="background:#f7f3ec;border:1px solid #ece6da;border-radius:14px;padding:20px;"><div style="font-family:'Cormorant Garamond',serif;font-size:24px;color:#2a231d;">Local</div><div style="font-size:13.5px;color:#6f655c;margin-top:3px;">Hosts on call</div></div>
+            <div style="background:#f7f3ec;border:1px solid #ece6da;border-radius:14px;padding:20px;"><div style="font-family:'Cormorant Garamond',serif;font-size:24px;color:#2a231d;">5 yrs</div><div style="font-size:13.5px;color:#6f655c;margin-top:3px;">Hosting guests</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </sc-if>
+
+    <!-- ===================== CONTACT ===================== -->
+    <sc-if value="{{ isContact }}" hint-placeholder-val="{{ false }}">
+    <div data-pad style="max-width:1080px;margin:0 auto;padding:64px 32px 90px;">
+      <div style="font-size:12.5px;letter-spacing:.2em;text-transform:uppercase;color:#bd6a44;font-weight:600;margin-bottom:14px;">Contact</div>
+      <h1 style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:clamp(34px,4.6vw,52px);line-height:1.05;margin:0 0 44px;color:#2a231d;">Questions? Get in touch.</h1>
+      <div data-split style="display:flex;gap:48px;align-items:flex-start;">
+        <div style="flex:1.2;min-width:300px;">
+          <sc-if value="{{ contactSent }}" hint-placeholder-val="{{ false }}">
+            <div style="background:#e7f1ea;border:1px solid #c7e0d2;border-radius:18px;padding:40px;text-align:center;">
+              <div style="font-family:'Cormorant Garamond',serif;font-size:26px;color:#1f6b46;margin-bottom:10px;">Thanks for reaching out!</div>
+              <p style="font-size:15.5px;color:#3a6b53;line-height:1.6;margin:0;">We’ve received your message and will reply within a few hours.</p>
+            </div>
+          </sc-if>
+          <sc-if value="{{ contactOpen }}" hint-placeholder-val="{{ true }}">
+            <form onSubmit="{{ submitContact }}" style="display:flex;flex-direction:column;gap:16px;">
+              <div data-split style="display:flex;gap:16px;">
+                <label style="flex:1;display:flex;flex-direction:column;gap:7px;"><span style="font-size:13px;font-weight:600;color:#2c2723;">Name</span><input type="text" required style="border:1px solid #d9d4ca;border-radius:11px;padding:13px 15px;font-size:15px;font-family:inherit;color:#2c2723;outline:none;" /></label>
+                <label style="flex:1;display:flex;flex-direction:column;gap:7px;"><span style="font-size:13px;font-weight:600;color:#2c2723;">Email</span><input type="email" required style="border:1px solid #d9d4ca;border-radius:11px;padding:13px 15px;font-size:15px;font-family:inherit;color:#2c2723;outline:none;" /></label>
+              </div>
+              <label style="display:flex;flex-direction:column;gap:7px;"><span style="font-size:13px;font-weight:600;color:#2c2723;">Preferred dates</span><input type="text" placeholder="e.g. July 10–17" style="border:1px solid #d9d4ca;border-radius:11px;padding:13px 15px;font-size:15px;font-family:inherit;color:#2c2723;outline:none;" /></label>
+              <label style="display:flex;flex-direction:column;gap:7px;"><span style="font-size:13px;font-weight:600;color:#2c2723;">Message</span><textarea rows="5" required style="border:1px solid #d9d4ca;border-radius:11px;padding:13px 15px;font-size:15px;font-family:inherit;color:#2c2723;outline:none;resize:vertical;"></textarea></label>
+              <button type="submit" style="align-self:flex-start;background:#bd6a44;color:#fff;border:none;border-radius:999px;padding:15px 32px;font-size:15.5px;font-weight:600;cursor:pointer;">Send message</button>
+            </form>
+          </sc-if>
+        </div>
+        <div style="flex:1;min-width:260px;background:#f7f3ec;border:1px solid #ece6da;border-radius:20px;padding:34px;">
+          <h3 style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:22px;margin:0 0 22px;color:#2a231d;">Reach us directly</h3>
+          <div style="display:flex;flex-direction:column;gap:20px;">
+            <div><div style="font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:#8a96a5;margin-bottom:5px;">Email</div><div style="font-size:15.5px;color:#2c2723;">stay@vistaloopvilla.com</div></div>
+            <div><div style="font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:#8a96a5;margin-bottom:5px;">Phone / WhatsApp</div><div style="font-size:15.5px;color:#2c2723;">+1 (407) 555-0148</div></div>
+            <div><div style="font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:#8a96a5;margin-bottom:5px;">Response time</div><div style="font-size:15.5px;color:#2c2723;">Usually within a few hours</div></div>
+            <div><div style="font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:#8a96a5;margin-bottom:5px;">Address</div><div style="font-size:15.5px;color:#2c2723;line-height:1.5;">Vista Loop, Vista Park Resort<br/>Davenport, FL 33897</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </sc-if>
+
+  </main>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer style="background:#2a231d;color:#d8cfc2;margin-top:auto;">
+    <div data-pad style="max-width:1180px;margin:0 auto;padding:60px 32px 40px;">
+      <div data-split style="display:flex;gap:48px;justify-content:space-between;flex-wrap:wrap;margin-bottom:44px;">
+        <div style="max-width:300px;">
+          <div style="display:flex;align-items:center;gap:11px;margin-bottom:16px;">
+            <span style="width:30px;height:30px;border-radius:8px;background:#bd6a44;display:flex;align-items:center;justify-content:center;color:#fff;font-family:'Cormorant Garamond',serif;font-size:17px;">V</span>
+            <span style="font-family:'Cormorant Garamond',serif;font-size:20px;color:#fff;">Vista Loop Villa</span>
+          </div>
+          <p style="font-size:14.5px;line-height:1.65;color:#a89e90;margin:0;">A luxury 4-bedroom villa with a private heated pool in Davenport, Orlando, 15 minutes from Disney.</p>
+        </div>
+        <div>
+          <div style="font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#8a8073;margin-bottom:16px;">Explore</div>
+          <div style="display:flex;flex-direction:column;gap:11px;">
+            <button onClick="{{ goGallery }}" style="background:none;border:none;color:#d8cfc2;font-size:14.5px;cursor:pointer;text-align:left;padding:0;">Gallery</button>
+            <button onClick="{{ goBook }}" style="background:none;border:none;color:#d8cfc2;font-size:14.5px;cursor:pointer;text-align:left;padding:0;">Availability</button>
+            <button onClick="{{ goLocation }}" style="background:none;border:none;color:#d8cfc2;font-size:14.5px;cursor:pointer;text-align:left;padding:0;">Location &amp; area</button>
+            <button onClick="{{ goReviews }}" style="background:none;border:none;color:#d8cfc2;font-size:14.5px;cursor:pointer;text-align:left;padding:0;">Reviews</button>
+          </div>
+        </div>
+        <div>
+          <div style="font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#8a8073;margin-bottom:16px;">Contact</div>
+          <div style="display:flex;flex-direction:column;gap:11px;font-size:14.5px;color:#d8cfc2;">
+            <span>stay@vistaloopvilla.com</span>
+            <span>+1 (407) 555-0148</span>
+            <span>Davenport, FL 33897</span>
+          </div>
+        </div>
+      </div>
+      <div style="border-top:1px solid #3d342c;padding-top:24px;font-size:13px;color:#8a8073;">© 2026 Vista Loop Villa · Vista Park Resort, Davenport, Florida</div>
+    </div>
+  </footer>
+
+  <!-- Home direction toggle -->
+  <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+    <div style="position:fixed;right:20px;bottom:20px;z-index:60;background:#fff;border:1px solid #e2ddd3;border-radius:999px;box-shadow:0 10px 30px -12px rgba(22,43,64,.4);padding:5px;display:flex;gap:4px;align-items:center;">
+      <span style="font-size:11px;color:#8a96a5;padding:0 8px 0 10px;letter-spacing:.04em;">Home style</span>
+      <button onClick="{{ setHomeA }}" style="{{ toggleAStyle }}">Editorial</button>
+      <button onClick="{{ setHomeB }}" style="{{ toggleBStyle }}">Resort</button>
+    </div>
+  </sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:900},&quot;homeStyle&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;A&quot;,&quot;B&quot;],&quot;default&quot;:&quot;A&quot;,&quot;tsType&quot;:&quot;'A'|'B'&quot;,&quot;section&quot;:&quot;Homepage&quot;}}">
+class Component extends DCLogic {
+  constructor(props){
+    super(props);
+    this.state = {
+      page: 'home',
+      userHome: null,
+      menuOpen: false,
+      viewY: 2026, viewM: 6,
+      checkIn: null, checkOut: null,
+      guests: 4,
+      bookingMsg: '',
+      contactSent: false,
+    };
+    this.today = new Date(2026, 5, 29);
+  }
+
+  nav(page){ this.setState({ page, menuOpen: false }); if (typeof window !== 'undefined') window.scrollTo(0,0); }
+  toggleMenu(){ this.setState(s => ({ menuOpen: !s.menuOpen })); }
+
+  isBooked(y,m,d){
+    if (y===2026 && m===6) return [4,5,6,18,19,26,27,28].includes(d);
+    if (y===2026 && m===7) return [1,2,3,4,15,16].includes(d);
+    if (y===2026 && m===11) return [24,25,26].includes(d);
+    return false;
+  }
+  rangeHasBooked(a,b){
+    const day = 86400000;
+    for (let t = a.getTime() + day; t < b.getTime(); t += day){
+      const d = new Date(t);
+      if (this.isBooked(d.getFullYear(), d.getMonth(), d.getDate())) return true;
+    }
+    return false;
+  }
+  pickDate(date){
+    const { checkIn, checkOut } = this.state;
+    if (!checkIn || checkOut){ this.setState({ checkIn: date, checkOut: null, bookingMsg: '' }); return; }
+    if (date.getTime() === checkIn.getTime()){ this.setState({ checkIn: null, checkOut: null, bookingMsg: '' }); return; }
+    if (date > checkIn){
+      if (this.rangeHasBooked(checkIn, date)) this.setState({ checkIn: date, checkOut: null, bookingMsg: '' });
+      else this.setState({ checkOut: date, bookingMsg: '' });
+    } else {
+      this.setState({ checkIn: date, checkOut: null, bookingMsg: '' });
+    }
+  }
+  monthShift(delta){
+    let m = this.state.viewM + delta, y = this.state.viewY;
+    if (m < 0){ m = 11; y -= 1; }
+    if (m > 11){ m = 0; y += 1; }
+    if (y < 2026 || (y === 2026 && m < 5)) return; // don't go before June 2026
+    this.setState({ viewY: y, viewM: m });
+  }
+
+  renderVals(){
+    const ink = '#2c2723', ocean = '#bd6a44';
+    const page = this.state.page;
+    const effHome = this.state.userHome || this.props.homeStyle || 'A';
+    const maxGuests = this.props.maxGuests ?? 8;
+    const nightly = this.props.nightlyRate ?? 189;
+
+    // nav
+    const items = [
+      ['home','Home'],['gallery','Gallery'],['availability','Availability'],
+      ['location','Location'],['reviews','Reviews'],['about','About'],['contact','Contact'],
+    ];
+    const navItems = items.map(([key,label]) => {
+      const active = page === key || (key==='availability' && page==='availability');
+      return {
+        label,
+        onClick: () => this.nav(key),
+        style: {
+          background:'none', border:'none', cursor:'pointer', padding:'8px 0',
+          fontSize:'15px', fontFamily:'inherit', letterSpacing:'.01em',
+          color: active ? ocean : ink,
+          fontWeight: active ? 600 : 500,
+          borderBottom: active ? '2px solid ' + ocean : '2px solid transparent',
+        },
+      };
+    });
+
+    // calendar cells
+    const { viewY, viewM, checkIn, checkOut, guests } = this.state;
+    const todayMid = new Date(this.today.getFullYear(), this.today.getMonth(), this.today.getDate());
+    const startDow = new Date(viewY, viewM, 1).getDay();
+    const daysIn = new Date(viewY, viewM + 1, 0).getDate();
+    const sameDay = (a,b) => a && b && a.getTime() === b.getTime();
+    const cells = [];
+    for (let i = 0; i < startDow; i++) cells.push({ day:'', style:{height:'42px'}, onClick:null });
+    for (let d = 1; d <= daysIn; d++){
+      const dateObj = new Date(viewY, viewM, d);
+      const past = dateObj < todayMid;
+      const booked = this.isBooked(viewY, viewM, d);
+      const disabled = past || booked;
+      const isStart = sameDay(dateObj, checkIn);
+      const isEnd = sameDay(dateObj, checkOut);
+      const inRange = checkIn && checkOut && dateObj > checkIn && dateObj < checkOut;
+      const base = {
+        height:'42px', display:'flex', alignItems:'center', justifyContent:'center',
+        fontSize:'14px', borderRadius:'10px', userSelect:'none',
+        cursor: disabled ? 'default' : 'pointer',
+      };
+      let st = { ...base };
+      if (booked){ st.color = '#b3bac3'; st.textDecoration = 'line-through'; st.background = '#f1f1ee'; }
+      else if (past){ st.color = '#cdd2d9'; }
+      else if (isStart || isEnd){ st.background = ocean; st.color = '#fff'; st.fontWeight = 600; }
+      else if (inRange){ st.background = '#f3e3d9'; st.color = ocean; st.borderRadius = '0'; }
+      else { st.color = ink; st.background = '#fff'; }
+      cells.push({ day: d, style: st, onClick: disabled ? null : () => this.pickDate(dateObj) });
+    }
+
+    const monthsLong = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    const monthsShort = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const fmt = (d) => d ? monthsShort[d.getMonth()] + ' ' + d.getDate() : 'Select';
+    const canPrev = !(viewY === 2026 && viewM <= 5);
+
+    const hasDates = !!(checkIn && checkOut);
+    const nights = hasDates ? Math.round((checkOut - checkIn) / 86400000) : 0;
+    const subtotal = nights * nightly;
+    const cleaning = 120;
+    const taxes = Math.round(subtotal * 0.12);
+    const total = subtotal + cleaning + taxes;
+    const money = (n) => '$' + n.toLocaleString('en-US');
+
+    return {
+      navItems,
+      goHome: () => this.nav('home'),
+      goGallery: () => this.nav('gallery'),
+      goBook: () => this.nav('availability'),
+      goLocation: () => this.nav('location'),
+      goReviews: () => this.nav('reviews'),
+      toggleMenu: () => this.toggleMenu(),
+      menuOpen: this.state.menuOpen,
+
+      isHome: page === 'home',
+      isGallery: page === 'gallery',
+      isBook: page === 'availability',
+      isLocation: page === 'location',
+      isReviews: page === 'reviews',
+      isAbout: page === 'about',
+      isContact: page === 'contact',
+
+      isHomeA: effHome === 'A',
+      isHomeB: effHome === 'B',
+      homeKey: effHome,
+      setHomeA: () => this.setState({ userHome: 'A' }),
+      setHomeB: () => this.setState({ userHome: 'B' }),
+      toggleAStyle: this._pill(effHome === 'A'),
+      toggleBStyle: this._pill(effHome === 'B'),
+
+      // calendar
+      calCells: cells,
+      monthLabel: monthsLong[viewM] + ' ' + viewY,
+      prevMonth: () => this.monthShift(-1),
+      nextMonth: () => this.monthShift(1),
+      prevBtnStyle: {
+        width:'38px', height:'38px', borderRadius:'10px',
+        border:'1px solid #e2ddd3', background:'#fff',
+        cursor: canPrev ? 'pointer' : 'default', fontSize:'18px',
+        color: canPrev ? ink : '#cdd2d9',
+      },
+      checkInLabel: fmt(checkIn),
+      checkOutLabel: fmt(checkOut),
+      guests,
+      guestsLabel: guests + (guests === 1 ? ' guest' : ' guests'),
+      incGuests: () => this.setState(s => ({ guests: Math.min(maxGuests, s.guests + 1) })),
+      decGuests: () => this.setState(s => ({ guests: Math.max(1, s.guests - 1) })),
+      hasDates,
+      noDates: !hasDates,
+      nightsLabel: nights + (nights === 1 ? ' night' : ' nights'),
+      requestBook: () => this.setState({ bookingMsg: hasDates ? 'sent' : 'error' }),
+      requestBtnStyle: {
+        width:'100%', background: hasDates ? ocean : '#d3c1b3', color:'#fff',
+        border:'none', borderRadius:'12px', padding:'15px',
+        fontSize:'15.5px', fontWeight:600, cursor: hasDates ? 'pointer' : 'default',
+      },
+      bookingSent: this.state.bookingMsg === 'sent',
+      bookingError: this.state.bookingMsg === 'error',
+
+      // contact
+      contactSent: this.state.contactSent,
+      contactOpen: !this.state.contactSent,
+      submitContact: (e) => { e.preventDefault(); this.setState({ contactSent: true }); },
+    };
+  }
+
+  _pill(active){
+    return {
+      background: active ? '#bd6a44' : '#fff',
+      color: active ? '#fff' : '#2c2723',
+      border:'none', borderRadius:'999px', padding:'8px 16px',
+      fontSize:'13px', fontWeight:600, cursor:'pointer',
+    };
+  }
+}
+</script>
+</body>
+</html>
